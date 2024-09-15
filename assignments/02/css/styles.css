@@ -18,14 +18,13 @@ i, em {
 }
 
 ol, ul {
-    list-style-type: none;
+    list-style-type: none; /* Removes default list styling */
     padding: 0;
 }
 
 li {
     margin-bottom: 5px;
 }
-
 a {
     text-decoration: none;
     color: navy;
