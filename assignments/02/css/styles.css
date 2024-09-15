@@ -39,6 +39,7 @@ img {
     height: auto;
     border: 1px solid black;
 }
+
 header, footer, nav, main, article, aside {
     border: 1px solid grey;
     margin: 10px;
@@ -52,6 +53,7 @@ header, footer {
 nav {
     background-color: lightyellow;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -71,6 +73,7 @@ input, textarea, button {
     padding: 10px;
     margin: 5px 0;
 }
+
 main {
     display: flex;
     justify-content: space-between;
