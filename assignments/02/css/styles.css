@@ -18,7 +18,7 @@ i, em {
 }
 
 ol, ul {
-    list-style-type: none; /* Removes default list styling */
+    list-style-type: none;
     padding: 0;
 }
 
