@@ -1,3 +1,21 @@
+<?php
+include 'config.php'; // Ensure this is at the top to use PDO for database connection
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    // Prepare statement to avoid SQL injection
+    $stmt = $pdo->prepare("INSERT INTO contact_us (name, email, message) VALUES (?, ?, ?)");
+    $stmt->execute([$name, $email, $message]);
+
+    // Redirect or display a success message
+    $_SESSION['messages'][] = 'Thank you for contacting us!';
+    header('Location: contact.php');
+    exit;
+}
+?>
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
 
@@ -46,25 +64,6 @@
     </a>
 </section>
 <!-- END YOUR CONTENT -->
-PHP to Save Form Data (at the top of contact.php):
-<?php
-include 'config.php'; // Ensure this is at the top to use PDO for database connection
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
-
-    // Prepare statement to avoid SQL injection
-    $stmt = $pdo->prepare("INSERT INTO contact_us (name, email, message) VALUES (?, ?, ?)");
-    $stmt->execute([$name, $email, $message]);
-
-    // Redirect or display a success message
-    $_SESSION['messages'][] = 'Thank you for contacting us!';
-    header('Location: contact.php');
-    exit;
-}
-?>
 
 <?php include 'templates/footer.php'; ?>
 
