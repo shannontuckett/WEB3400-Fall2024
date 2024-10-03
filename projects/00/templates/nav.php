@@ -43,7 +43,8 @@
     </div>
 </section>
 <!-- END HERO -->
- 
+
+<!-- START USER MESSAGE--> 
 <?php if (!empty($_SESSION['messages'])) : ?>
   <section class="notification is-warning">
       <button class="delete"></button>
@@ -51,6 +52,7 @@
             $_SESSION['messages'] = []; // Clear the user responses?>
   </section>
 <?php endif; ?>
+<!-- END USER MESSAGE--> 
 
 </header>
 <!-- END PAGE HEADER -->
