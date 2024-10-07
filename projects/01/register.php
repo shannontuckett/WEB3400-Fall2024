@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($userExists) {
         // Email already exists, prompt the user to choose another
-        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your passowrd";
+        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your password";
         header('Location: register.php');
         exit;
     } else {
