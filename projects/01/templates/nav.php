@@ -26,13 +26,13 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="Buttons">
-                    <a class="button is-light" href="contact.php">Contact us</a>
+                    <a href="contact.php" class="button is-light">Contact us</a>
                     <!-- BEGIN USER MENU -->
                     <?php if (isset($_SESSION['loggedin'])) : ?>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="button navbar-link">
                                 <span class="icon">
-                                <i class="fas fa-user"></i>
+                                    <i class="fas fa-user"></i>
                                 </span>
                             </a>
                             <div class="navbar-dropdown">
@@ -66,8 +66,8 @@
   </section>
   <!-- END HERO -->
 <?php endif; ?>
-
-<!-- START USER MESSAGE--> 
+ 
+<!-- Start User Messages --> 
 <?php if (!empty($_SESSION['messages'])) : ?>
   <section class="notification is-warning">
       <button class="delete"></button>
@@ -75,8 +75,6 @@
             $_SESSION['messages'] = []; // Clear the user responses?>
   </section>
 <?php endif; ?>
-<!-- END USER MESSAGE--> 
-
 </header>
 <!-- END PAGE HEADER -->
 

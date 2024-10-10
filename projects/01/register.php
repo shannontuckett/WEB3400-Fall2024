@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($userExists) {
         // Email already exists, prompt the user to choose another
-        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your password";
+        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your passowrd";
         header('Location: register.php');
         exit;
     } else {
@@ -72,13 +72,34 @@ if (isset($_GET['code'])) {
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
 
-    <!-- BEGIN YOUR CONTENT -->
-    <h1 class="title"> This is my page content.</h1>
-    <h2 class="subtitle">This is the subtitle.</h2>
-    <!-- END YOUR CONTENT -->
-
-<?php include 'templates/footer.php'; ?>
-
+<!-- BEGIN YOUR CONTENT -->
+<section class="section">
+    <h1 class="title">Login</h1>
+    <form class="box" action="login.php" method="post">
+        <!-- Email -->
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+                <input class="input" type="email" name="email" required>
+            </div>
+        </div>
+        <!-- Password -->
+        <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+                <input class="input" type="password" name="password" required>
+            </div>
+        </div>
+        <!-- Submit Button -->
+        <div class="field">
+            <div class="control">
+                <button type="submit" class="button is-link">Login</button>
+            </div>
+        </div>
+    </form>
+    <a href="register.php" class="is-link"><strong>Create a new user account</strong></a>
+</section>
+<!-- END YOUR CONTENT -->
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
     <h1 class="title">Create a user account</h1>
