@@ -68,6 +68,13 @@ if (isset($_GET['code'])) {
         die("Database error occurred: " . $e->getMessage());
     }
 }
+ // Extract, sanitize user input and assign data to variables
+ $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
+
+ //Email is unique, proceed with inserting the new user record
+ $insertStmt = $pdo->prepare("INSERT INTO `users`(`full_name`, `email`, `pass_hash`, `phone`, `sms`, `subscribe`,`activation_code`, `user_bio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+ $insertStmt->execute([$full_name, $email, $password, $phone, $sms, $subscribe, $activation_code, $user_bio]);
+ exit;
 ?>
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
@@ -130,6 +137,13 @@ if (isset($_GET['code'])) {
             <label class="label">Phone</label>
             <div class="control">
                 <input class="input" type="tel" name="phone">
+            </div>
+        </div>
+        <!-- Bio -->
+        <div class="field">
+            <label class="label">Bio</label>
+            <div class="control">
+                <textarea class="textarea" name="user_bio" placeholder="Tell us about yourself"></textarea>
             </div>
         </div>
         <!-- sms -->
