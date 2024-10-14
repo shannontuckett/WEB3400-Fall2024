@@ -11,7 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sms = $_POST['sms'] == 'on' ? 1 : 0;
     $subscribe = $_POST['subscribe'] == 'on' ? 1 : 0;
     $activation_code = uniqid(); // Generate a unique id
-
+    // Extract, sanitize user input and assign data to variables
+    $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
+    
     // Check if the email is unique
     $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `email` = ?");
     $stmt->execute([$email]);
@@ -23,13 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: register.php');
         exit;
     } else {
-        // Email is unique, proceed with inserting the new user record
-        //$insertStmt = $pdo->prepare("INSERT INTO `users`(`full_name`, `email`, `pass_hash`, `phone`, `sms`, `subscribe`, `activation_code`) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        //$insertStmt->execute([$full_name, $email, $password, $phone, $sms, $subscribe, $activation_code]);
-
-        // Extract, sanitize user input and assign data to variables
-        $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
-
         //Email is unique, proceed with inserting the new user record
         $insertStmt = $pdo->prepare("INSERT INTO `users`(`full_name`, `email`, `pass_hash`, `phone`, `sms`, `subscribe`,`activation_code`, `user_bio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $insertStmt->execute([$full_name, $email, $password, $phone, $sms, $subscribe, $activation_code, $user_bio]);
@@ -177,3 +172,5 @@ if (isset($_GET['code'])) {
     </form>
 </section>
 <!-- END YOUR CONTENT -->
+ 
+<?php include 'templates/footer.php'; ?>
