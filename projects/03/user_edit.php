@@ -1,13 +1,40 @@
 <?php
 // Step 1: Include config.php file
+include 'config.php';
 
 // Step 2: Secure and only allow 'admin' users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect user to login page or display an error message
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+    header('Location: login.php');
+    exit;
+}
 
 // Step 3: Check if the update form was submitted. If so, update user details. Similar steps as in user_add.php but with an UPDATE SQL query
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Extract, sanitize user input, and assign data to variables
+    $full_name = htmlspecialchars($_POST['full_name']);
+    $phone = htmlspecialchars($_POST['phone']);
+    $role = htmlspecialchars($_POST['role']);
+
+    // Update user records
+    $insertStmt = $pdo->prepare("UPDATE `users` SET `full_name`=?,`phone`=?, `role`=? WHERE `id` = ?");
+    $insertStmt->execute([$full_name, $phone, $role, $_POST['id']]);
+}
 
 // Step 4: Else it's an initial page request, fetch the user's current data from the database by preparing and executing a SQL statement that uses the user gets the user id from the query string (ex. $_GET['id'])
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
 
+     // Prepare and execute the SELECT query to fetch the user data
+     $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `id` = ?");
+     $stmt->execute([$user_id]);
+     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
+
+<?php include 'templates/head.php'; ?>
+<?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
@@ -75,3 +102,5 @@
     </form>
 </section>
 <!-- END YOUR CONTENT -->
+
+<?php include 'templates/footer.php'; ?>
