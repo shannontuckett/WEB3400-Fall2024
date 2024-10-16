@@ -11,9 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sms = $_POST['sms'] == 'on' ? 1 : 0;
     $subscribe = $_POST['subscribe'] == 'on' ? 1 : 0;
     $activation_code = uniqid(); // Generate a unique id
-    // Extract, sanitize user input and assign data to variables
     $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
-    
+
     // Check if the email is unique
     $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `email` = ?");
     $stmt->execute([$email]);
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($userExists) {
         // Email already exists, prompt the user to choose another
-        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your passowrd";
+        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your password";
         header('Location: register.php');
         exit;
     } else {
@@ -70,7 +69,6 @@ if (isset($_GET['code'])) {
         die("Database error occurred: " . $e->getMessage());
     }
 }
-
 ?>
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
@@ -135,13 +133,6 @@ if (isset($_GET['code'])) {
                 <input class="input" type="tel" name="phone">
             </div>
         </div>
-        <!-- Bio -->
-        <div class="field">
-            <label class="label">Bio</label>
-            <div class="control">
-                <textarea class="textarea" name="user_bio" placeholder="Tell us about yourself"></textarea>
-            </div>
-        </div>
         <!-- sms -->
         <div class="field">
             <div class="control">
@@ -160,6 +151,13 @@ if (isset($_GET['code'])) {
                 </label>
             </div>
         </div>
+         <!-- Bio -->
+        <div class="field">
+            <label class="label">Bio</label>
+            <div class="control">
+                <textarea class="textarea" name="user_bio" placeholder="Tell us about yourself"></textarea>
+            </div>
+        </div>
         <!-- Submit Button -->
         <div class="field is-grouped">
             <div class="control">
@@ -172,5 +170,3 @@ if (isset($_GET['code'])) {
     </form>
 </section>
 <!-- END YOUR CONTENT -->
- 
-<?php include 'templates/footer.php'; ?>
