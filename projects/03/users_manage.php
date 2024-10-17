@@ -5,14 +5,14 @@ include 'config.php';
 // Step 2: Secure and only allow 'admin' users to access this page
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     // Redirect user to login page or display an error message
-    $_SESSION['messages'][] = "You must be an Administrator to access this resource, please log in with the proper credentials";
+    $_SESSION['messages'][] = "You must be an administrator to access this resource.";
     header('Location: login.php');
     exit;
 }
 
 // Step 3: Prepare the SQL query template to select all users from the database
 // ex. $stmt = $pdo->prepare('SQL GOES HERE...');
-$stmt = $pdo->prepare("'SELECT * FROM 'users'");
+$stmt = $pdo->prepare("SELECT * FROM `users` WHERE 1");
 
 // Step 4: Execute the query
 // ex. $stmt->execute();
