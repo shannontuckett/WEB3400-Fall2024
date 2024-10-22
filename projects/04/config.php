@@ -32,7 +32,8 @@ if (!isset($_SESSION['messages'])) {
 }
 // How to add a message to the array
 // $_SESSION['messages'][] = "Message goes here";
-?>
+
+
 function time_ago($datetime)
 {
     $time_ago = strtotime($datetime);
@@ -63,3 +64,5 @@ function time_ago($datetime)
         return $years == 1 ? "one year ago" : "$years years ago";
     }
 }
+
+?>
