@@ -1,7 +1,14 @@
 <?php
 // Step 1: Include config.php file
+include 'config.php'; 
 
 // Step 2: Secure and only allow 'admin' users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect user to login page or display an error message
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+    header('Location: login.php');
+    exit;
+}
 
 // Step 3: Prepare the SQL query template to select all posts from the database
 // ex. $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id ORDER BY `created_at` DESC');
@@ -19,6 +26,9 @@
 
 // Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
 ?>
+
+<?php include 'templates/head.php'; ?>
+<?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
@@ -82,3 +92,5 @@
     </table>
 </section>
 <!-- END YOUR CONTENT -->
+
+<?php include 'templates/footer.php'; ?>
