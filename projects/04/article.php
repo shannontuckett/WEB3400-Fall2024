@@ -5,7 +5,9 @@ include 'config.php';
 // Step 2: Check if the $_GET['id'] exists; if it does, get the article record from the database and store it in the associative array named $article.
 // SQL example: SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND articles.id = ?
 if ([$_GET['id']]) {
-    $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND articles.id = ?');
+    $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 and articles.id = ?');
+    $stmt->execute([$_GET['id']]);
+    $article = $stmt->fetch(PDO::FETCH_ASSOC);
 // Step 3: If an article with that ID does not exist, display the message "An article with that ID did not exist."
 }else{
     $_SESSION['messages'][] = "An article with that ID does not exist";
@@ -74,3 +76,5 @@ if ([$_GET['id']]) {
     </div>
 </section>
 <!-- END YOUR CONTENT -->
+
+<?php include 'templates/footer.php'; ?>
