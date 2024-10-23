@@ -12,7 +12,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 
 /* Step 3: Implement form handling logic to insert the new article into the database. 
    You must update the SQL INSERT statement, and when the record is successfully created, 
-   redirect back to the `articles.php` page with the message "The article was successfully added."
+   redirect back to the `articles.php` page with the message "The article was successfully added." Look at user_add
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Extract, sanitize user input, and assign data to variables
@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertStmt = $pdo->prepare("INSERT INTO `articles`(`title`, `content`, `author_id`) VALUES (?, ?, ?)");
     $insertStmt->execute([$title, $content, $author_id]);
 
-    //Display the message article created and redirect to article_add.php
-    $_SESSION['messages'][] = "Article $title created.";
-    header('Location: article_add.php');
+    //Display the message article created and redirect to articles.php
+    $_SESSION['messages'][] = "The article was sucessfully created.";
+    header('Location: articles.php');
     exit;
 }
 ?>

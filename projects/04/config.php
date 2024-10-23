@@ -26,13 +26,12 @@ try {
 // Start a user session for the messages response system
 session_start();
 
-// Crate the message array and store it in a session variable
+// Create the message array and store it in a session variable
 if (!isset($_SESSION['messages'])) {
     $_SESSION['messages'] = [];
 }
 // How to add a message to the array
 // $_SESSION['messages'][] = "Message goes here";
-
 
 function time_ago($datetime)
 {
