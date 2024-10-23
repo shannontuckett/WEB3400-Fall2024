@@ -74,17 +74,23 @@
         
         <?php if ($_SERVER['PHP_SELF'] == '/index.php') : ?>
        
-        <!-- BEGIN HERO -->
-        <section class="hero is-link">
-            <div class="hero-body">
+         <!-- BEGIN HERO -->
+         <section class="hero is-info">
+                <div class="hero-body">
                 <p class="title">
-                    Hero title
+                    Do you feel like something is missing from your life? 
                 </p>
                 <p class="subtitle">
-                    Hero subtitle
+                    Join us to learn all about finding happiness from within...
                 </p>
-            </div>
-        </section>
+                <a href="contact.php" class="button is-medium is-info is-light is-rounded">
+                    <span class="icon is-large">
+                    <i class="fab fa-2x fa-pagelines"></i>
+                    </span>
+                    <span>Reach out to a Happiness Guru to start your journey now!</span>
+                </a>
+                </div>
+            </section>
         <!-- END HERO -->
 
         <?php endif; ?>

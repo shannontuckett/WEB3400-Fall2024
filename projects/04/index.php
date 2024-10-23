@@ -29,7 +29,7 @@ if (!$articles) {
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-128x128">
-                        <img class="is-rounded" src="https://source.unsplash.com/random/128x128/?sig=<?= $article['id'] ?>&wellness">
+                        <img class="is-rounded" src="https://picsum.photos/128"<?= $article['id'] ?>&wellness">
                     </p>
                 </figure>
                 <div class="media-content">

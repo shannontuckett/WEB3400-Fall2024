@@ -7,7 +7,12 @@ include 'config.php';
 $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND articles.id = ?');
 
 // Step 3: If an article with that ID does not exist, display the message "An article with that ID did not exist."
-
+if ([$_GET['id']]) {
+    $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND articles.id = ?');
+}else{
+    $_SESSION['messages'][] = "An article with that ID does not exist";
+    exit;
+}
 
 ?>
 
@@ -21,7 +26,7 @@ $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM article
         <article class="media">
             <figure class="media-left">
                 <p class="image is-128x128">
-                    <img src="https://source.unsplash.com/random/128x128/?wellness">
+                    <img src="https://picsum.photos/128">
                 </p>
             </figure>
             <div class="media-content">

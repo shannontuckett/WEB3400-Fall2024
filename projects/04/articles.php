@@ -24,10 +24,44 @@ $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Step 6: Check if the query returned any rows. If not, display the message: "There are no articles in the database."
 // ex. if (!$articles) {...}
+if (!$articles) {
+    $_SESSION['messages'][] = 'There are no articles in the database.';
+    exit;
+}
 
 // Step 7: If the 'is_published' control is clicked, toggle the status from 0 -> 1 for published or 1 -> 0 for unpublished
+if(isset($_GET['id']) && isset($_GET['is_published'])) {
+    // Get the status of 'is_published' 
+    $stmt = $pdo->prepare("SELECT is_published FROM articles WHERE id = :id");
+    $stmt->bindParam(':id', $_GET['id']);
+    $stmt->execute();
+    $currentStatus = $stmt->fetchColumn();
+    // Toggle the status
+    $newStatus = ($currentStatus == 0) ? 1 : 0;
+    // Update the database with new the status
+    $updateStmt = $pdo->prepare("UPDATE articles SET is_published = :newStatus WHERE id = :id");
+    $updateStmt->bindParam(':newStatus', $newStatus);
+    $updateStmt->bindParam(':id', $_GET['id']);
+    $updateStmt->execute();
+}
 
 // Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
+if(isset($_GET['id']) && isset($_GET['is_featured'])) {
+    // Get the status of 'is_featured' 
+    $stmt = $pdo->prepare("SELECT is_featured FROM articles WHERE id = :id");
+    $stmt->bindParam(':id', $_GET['id']);
+    $stmt->execute();
+    $currentStatus = $stmt->fetchColumn();
+
+    // Toggle the status
+    $newStatus = ($currentStatus == 0) ? 1 : 0;
+
+    // Update the database with new the status
+    $updateStmt = $pdo->prepare("UPDATE articles SET is_featured = :newStatus WHERE id = :id");
+    $updateStmt->bindParam(':newStatus', $newStatus);
+    $updateStmt->bindParam(':id', $_GET['id']);
+    $updateStmt->execute();
+}
 ?>
 
 <?php include 'templates/head.php'; ?>
