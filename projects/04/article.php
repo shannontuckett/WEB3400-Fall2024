@@ -4,7 +4,7 @@ include 'config.php';
 
 // Step 2: Check if the $_GET['id'] exists; if it does, get the article record from the database and store it in the associative array named $article.
 // SQL example: SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND articles.id = ?
-if ([$_GET['id']]) {
+if (isset($_GET['id'])) {
     $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 and articles.id = ?');
     $stmt->execute([$_GET['id']]);
     $article = $stmt->fetch(PDO::FETCH_ASSOC);

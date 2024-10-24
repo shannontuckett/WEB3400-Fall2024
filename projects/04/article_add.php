@@ -15,18 +15,27 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
    redirect back to the `articles.php` page with the message "The article was successfully added." Look at user_add
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Extract, sanitize user input, and assign data to variables
-    $title = htmlspecialchars($_POST['title']);
-    $content = $_POST['content'];
+    $title = trim($_POST['title']);
+    $content = trim($_POST['content']);
+    $author_id = $_SESSION['user_id']; // Assuming you store the user_id in session
 
-    // Insert the form data into to the articles table
-    $insertStmt = $pdo->prepare("INSERT INTO `articles`(`title`, `content`, `author_id`) VALUES (?, ?, ?)");
-    $insertStmt->execute([$title, $content, $author_id]);
+    // Prepare SQL INSERT statement
+    $stmt = $pdo->prepare('INSERT INTO articles (title, content, author_id, is_featured, is_published, created_at) VALUES (?, ?, ?, ?, ?, NOW())');
+    
+    // Set default values for is_featured and is_published
+    $is_featured = 0; // Default not featured
+    $is_published = 0; // Default not published
 
-    //Display the message article created and redirect to articles.php
-    $_SESSION['messages'][] = "The article was sucessfully created.";
-    header('Location: articles.php');
-    exit;
+    // Execute the statement with the provided values
+    if ($stmt->execute([$title, $content, $author_id, $is_featured, $is_published])) {
+        // Redirect back to the articles.php page with a success message
+        $_SESSION['messages'][] = "The article was successfully added.";
+        echo '<meta http-equiv="refresh" content="0;url=articles.php">';
+        exit;
+    } else {
+        // Handle error (optional)
+        $_SESSION['messages'][] = "An error occurred while adding the article.";
+    }
 }
 ?>
 
