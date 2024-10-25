@@ -15,16 +15,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
    redirect back to the `articles.php` page with the message "The article was successfully added." Look at user_add
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = trim($_POST['title']);
-    $content = trim($_POST['content']);
-    $author_id = $_SESSION['user_id']; // Assuming you store the user_id in session
+    $title = htmlspecialchars($_POST['title']);
+    $content = htmlspecialchars($_POST['content']);
+    $author_id = $_SESSION['user_id']; 
 
     // Prepare SQL INSERT statement
     $stmt = $pdo->prepare('INSERT INTO articles (title, content, author_id, is_featured, is_published, created_at) VALUES (?, ?, ?, ?, ?, NOW())');
     
     // Set default values for is_featured and is_published
-    $is_featured = 0; // Default not featured
-    $is_published = 0; // Default not published
+    $is_featured = 0; 
+    $is_published = 0; 
 
     // Execute the statement with the provided values
     if ($stmt->execute([$title, $content, $author_id, $is_featured, $is_published])) {

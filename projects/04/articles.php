@@ -29,38 +29,50 @@ if (!$articles) {
     exit;
 }
 
-// Step 7: If the 'is_published' control is clicked, toggle the status from 0 -> 1 for published or 1 -> 0 for unpublished
-if(isset($_GET['id']) && isset($_GET['is_published'])) {
-    // Get the status of 'is_published' 
-    $stmt = $pdo->prepare("SELECT is_published FROM articles WHERE id = :id");
-    $stmt->bindParam(':id', $_GET['id']);
-    $stmt->execute();
-    $currentStatus = $stmt->fetchColumn();
-    // Toggle the status
-    $newStatus = ($currentStatus == 0) ? 1 : 0;
-    // Update the database with new the status
-    $updateStmt = $pdo->prepare("UPDATE articles SET is_published = :newStatus WHERE id = :id");
-    $updateStmt->bindParam(':newStatus', $newStatus);
-    $updateStmt->bindParam(':id', $_GET['id']);
-    $updateStmt->execute();
+// Step 7: If the 'is_published' control is clicked, toggle the status from 0 -> 1 for published or 1 -> 0 for not published
+if (isset($_GET['id']) && isset($_GET['is_published'])) {
+    $articleId = $_GET['id'];
+    // Toggle published on or off
+    $currentPublished = $_GET['is_published'] == '1' ? 1 : 0;
+    $ispublished = $currentPublished == 1 ? 0 : 1; 
+
+    // Prepare the SQL statement to change the featured status
+    $updateStmt = $pdo->prepare('UPDATE articles SET is_published = :is_published WHERE id = :id');
+    $updateStmt->execute(['is_published' => $ispublished, 'id' => $articleId]);
+
+    // Display a message based on whether published or not published
+    if ($ispublished) {
+        $_SESSION['messages'][] = "The article has been published.";
+    } else {
+        $_SESSION['messages'][] = "The article is no longer published.";
+    }
+
+    // Redirect back to articles.php
+    header('Location: articles.php');
+    exit;
 }
 
-// Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
-if(isset($_GET['id']) && isset($_GET['is_featured'])) {
-    // Get the status of 'is_featured' 
-    $stmt = $pdo->prepare("SELECT is_featured FROM articles WHERE id = :id");
-    $stmt->bindParam(':id', $_GET['id']);
-    $stmt->execute();
-    $currentStatus = $stmt->fetchColumn();
+// Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for not featured
+if (isset($_GET['id']) && isset($_GET['is_featured'])) {
+    $articleId = $_GET['id'];
+    // Toggle featured on or off
+    $currentFeatured = $_GET['is_featured'] == '1' ? 1 : 0;
+    $isFeatured = $currentFeatured == 1 ? 0 : 1;
 
-    // Toggle the status
-    $newStatus = ($currentStatus == 0) ? 1 : 0;
+    // Prepare the SQL statement to change the featured status
+    $updateStmt = $pdo->prepare('UPDATE articles SET is_featured = :is_featured WHERE id = :id');
+    $updateStmt->execute(['is_featured' => $isFeatured, 'id' => $articleId]);
 
-    // Update the database with new the status
-    $updateStmt = $pdo->prepare("UPDATE articles SET is_featured = :newStatus WHERE id = :id");
-    $updateStmt->bindParam(':newStatus', $newStatus);
-    $updateStmt->bindParam(':id', $_GET['id']);
-    $updateStmt->execute();
+    // Display a message based on whether featured or not featured
+    if ($isFeatured) {
+        $_SESSION['messages'][] = "The article has been featured.";
+    } else {
+        $_SESSION['messages'][] = "The article is no longer featured.";
+    }
+
+    // Redirect back to articles.php to avoid
+    header('Location: articles.php');
+    exit;
 }
 ?>
 

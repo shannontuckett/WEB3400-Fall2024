@@ -30,7 +30,7 @@ if (isset($_GET['confirm'])){
         // delete YES
         $stmt = $pdo->prepare("DELETE FROM `articles`  WHERE `id` = ?");
         $stmt->execute([$_GET['id']]);
-        $_SESSION['messages'][] = "Article Deleted";   
+        $_SESSION['messages'][] = "The article has been deleted";   
         // Delete NO - Redirect user to articles.php
         header('Location: articles.php');
         exit;
