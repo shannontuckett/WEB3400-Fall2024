@@ -8,11 +8,12 @@ if (isset($_GET['id'])) {
     $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 and articles.id = ?');
     $stmt->execute([$_GET['id']]);
     $article = $stmt->fetch(PDO::FETCH_ASSOC);
-// Step 3: If an article with that ID does not exist, display the message "An article with that ID did not exist."
-}else{
-    $_SESSION['messages'][] = "An article with that ID does not exist";
-    exit;
 }
+// Step 3: If an article with that ID does not exist, display the message "An article with that ID did not exist."
+if (!$article) {
+    $_SESSION['messages'][] = "An article with that ID did not exist.";
+}
+
 
 ?>
 
