@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
         <article class="media">
             <figure class="media-left">
                 <p class="image is-128x128">
-                    <img src="https://picsum.photos/128">
+                    <img src="https://picsum.photos/128?random=<?= $article['id'] ?>">
                 </p>
             </figure>
             <div class="media-content">
