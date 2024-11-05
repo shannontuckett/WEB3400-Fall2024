@@ -7,7 +7,7 @@
                 <a class="navbar-item" href="index.php">
                     <span class="icon-text"> 
                         <span class="icon">
-                            <i class="fas fa-yin-yang fa-lg"></i>
+                            <i class="fas fa-grin fa-lg" style="color: #FFD43B;"></i>
                         </span>
                         <span>&nbsp;<?= $siteName ?></span>
                     </span>
