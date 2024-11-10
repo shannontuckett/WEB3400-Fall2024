@@ -1,12 +1,22 @@
 <?php
 // Include config.php file
+include 'config.php';
 
 // Secure and only allow 'admin' users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect user to login page or display an error message
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+    header('Location: login.php');
+    exit;
+}
 
 // Check if the update form was submitted. If so, UPDATE the ticket details.
 
 // Else, it's an initial page request; fetch the ticket record from the database where the ticket = $_GET['id']
 ?>
+
+<?php include 'templates/head.php'; ?>
+<?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
@@ -47,3 +57,4 @@
     </form>
 </section>
 <!-- END YOUR CONTENT -->
+<?php include 'templates/footer.php'; ?>
