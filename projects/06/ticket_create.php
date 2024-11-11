@@ -11,7 +11,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 // If the form was submitted, insert a new ticket into the database and redirect back to the `tickets.php` page with the message "The ticket was successfully added."
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_SESSION['user_id'];
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $priority = $_POST['priority'];
 
+    $insertStmt = $pdo->prepare("INSERT INTO `tickets` (`user_id`, `title`, `description`, `priority`) VALUES (?, ?, ?,?)");
+    $insertStmt->execute([$_SESSION['user_id'], $title, $description, $priority]);
+        $_SESSION['messages'] [] = "The ticket was successfully added.";
+        header('Location: tickets.php');
+        exit;
+}
 ?>
 
 <?php include 'templates/head.php'; ?>

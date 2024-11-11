@@ -10,12 +10,39 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 // Check if the $_GET['id'] exists; if it does, get the ticket record from the database and store it in the associative array $ticket. If a ticket with that ID does not exist, display the message "A ticket with that ID did not exist."
+if (!isset($_GET['id'])) {
+    // Handle error: ID not provided
+    echo "No ticket provided.";
+    exit;
+}
+$ticket_id = $_GET['id'];
+$stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = ?");
+$stmt->execute([$ticket_id]);
+$ticket = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Check if the ticket exists
+if (!$ticket) {
+    // Handle error: Ticket not found
+    echo "Error: A ticket with that ID does not exist.";
+    exit;
+}
 
 // Check if $_GET['confirm'] == 'yes'. This means they clicked the 'yes' button to confirm the removal of the record.
-// If yes, prepare and execute an SQL DELETE statement to remove the ticket where id == the $_GET['id'].
-// Also, delete all comments associated with that ticket.
-// Else (meaning they clicked 'no'), return them to the tickets.php page.
-
+if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
+    if (isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
+        // If yes, prepare and execute an SQL DELETE statement to remove the ticket where id == the $_GET['id'].
+        $stmt = $pdo->prepare("DELETE FROM tickets WHERE id = ?");
+        $stmt->execute([$ticket_id]);
+    
+       // Also, delete all comments associated with that ticket.
+        $stmt = $pdo->prepare("DELETE FROM ticket_comments WHERE ticket_id = ?");
+        $stmt->execute([$ticket_id]);
+    
+        // Else (meaning they clicked 'no'), return them to the tickets.php page.
+        header("Location: tickets.php");
+        exit;
+    }
+}
 ?>
 
 <?php include 'templates/head.php'; ?>

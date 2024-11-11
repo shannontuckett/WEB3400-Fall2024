@@ -11,8 +11,34 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 // Check if the update form was submitted. If so, UPDATE the ticket details.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['description'], $_POST['priority'])) {
+    // Get ticket details from the form
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $priority = $_POST['priority'];
 
+    // Get the ticket ID from the URL
+    $ticket_id = $_GET['id'];
+
+    // Update the ticket details in the database
+    $stmt = $pdo->prepare("UPDATE tickets SET title = ?, description = ?, priority = ? WHERE id = ?");
+    $stmt->execute([$title, $description, $priority, $ticket_id]);
+
+    // Redirect back to the ticket detail page after updating the ticket
+    header("Location: ticket_detail.php?id=$ticket_id");
+    exit;
+}
 // Else, it's an initial page request; fetch the ticket record from the database where the ticket = $_GET['id']
+$ticket_id = $_GET['id'];
+$stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = ?");
+$stmt->execute([$ticket_id]);
+$ticket = $stmt->fetch(PDO::FETCH_ASSOC);
+// Check if the ticket exists
+if (!$ticket) {
+    // Handle error: Ticket not found
+    echo "Error: Ticket not found.";
+    exit;
+}
 ?>
 
 <?php include 'templates/head.php'; ?>
@@ -57,4 +83,5 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     </form>
 </section>
 <!-- END YOUR CONTENT -->
+
 <?php include 'templates/footer.php'; ?>

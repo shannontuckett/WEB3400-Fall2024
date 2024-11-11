@@ -45,9 +45,7 @@
                         <div class="buttons">
                             <a href="contact.php" class="button is-light">Contact us</a>
                             <?php if (isset($_SESSION['loggedin'])) : ?>
-                            <a class="button is-light" href="ticket_create.php">
-                                <strong>Support</strong>
-                            </a>
+                            <a class="button is-light" href="ticket_create.php"><strong>Support</strong></a>
                             <?php endif; ?>
 
         <!-- BEGIN USER MENU -->
