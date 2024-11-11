@@ -33,33 +33,41 @@ if ($ticket) {
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Update ticket status when the user clicks the status link
-if (isset($_POST['status']) && in_array($_POST['status'], ['Open', 'In Progress', 'Closed'])) {
-    $new_status = $_POST['status'];
+$ticket_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (isset($_GET['status']) && in_array($_GET['status'], ['Open', 'In Progress', 'Closed'])) {
+    $new_status = $_GET['status'];
 
     // Prepare and execute the SQL statement to update the ticket status
     $stmt = $pdo->prepare("UPDATE tickets SET status = ?, updated_at = NOW() WHERE id = ?");
     $stmt->execute([$new_status, $ticket_id]);
 
     // Redirect to the ticket page after updating the status
-    header("Location: ticket_details.php?id=$ticket_id");
+    header("Location: ticket_detail.php?id=$ticket_id");
     exit;
 }
 
-// Check if the comment form has been submitted. If true, then INSERT the ticket comment
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['comment'])) {
-    $comment_text = trim($_POST['comment']);
+// Define ticket ID at the beginning of the script
+$ticket_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+// Check if the comment form has been submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['msg'])) {
+    $comment_text = trim($_POST['msg']); // Updated to match form field name
 
     // Check that the comment text is not empty
-    if (!$comment_text) {
+    if (!empty($comment_text)) {
         // Prepare and execute the SQL statement to insert the new comment
         $stmt = $pdo->prepare("INSERT INTO ticket_comments (ticket_id, user_id, comment, created_at) VALUES (?, ?, ?, NOW())");
         $stmt->execute([$ticket_id, $_SESSION['user_id'], $comment_text]);
 
-        // Redirect to the same page to display the new comment
-        header('Location: ticket_details.php');
+        // Redirect to the same page with ticket ID to display the new comment
+        header("Location: ticket_detail.php?id=$ticket_id");
         exit;
+    } else {
+        // Add an error message if the comment is empty
+        $_SESSION['messages'][] = 'Comment cannot be empty.';
     }
 }
+
 
 ?>
 
