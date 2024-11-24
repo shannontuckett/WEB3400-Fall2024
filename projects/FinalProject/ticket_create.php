@@ -2,13 +2,12 @@
 // Include config.php file
 include 'config.php';
 
-// Secure and only allow 'admin' users to access this page
-if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
-    // Redirect user to login page or display an error message
-    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
-    header('Location: login.php');
-    exit;
+// Secure and only allow logged-in users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php"); // Redirect to login if not logged in
+    exit();
 }
+
 
 // If the form was submitted, insert a new ticket into the database and redirect back to the `tickets.php` page with the message "The ticket was successfully added."
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertStmt = $pdo->prepare("INSERT INTO `tickets` (`user_id`, `title`, `description`, `priority`) VALUES (?, ?, ?,?)");
     $insertStmt->execute([$_SESSION['user_id'], $title, $description, $priority]);
         $_SESSION['messages'] [] = "The ticket was successfully added.";
-        header('Location: tickets.php');
+        header('Location: ticket_create.php');
         exit;
 }
 ?>
