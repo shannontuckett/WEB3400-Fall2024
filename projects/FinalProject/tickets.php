@@ -30,6 +30,7 @@ if (!$tickets) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Manage Tickets</h1>
     <!-- Add Ticket Button -->
@@ -83,6 +84,7 @@ if (!$tickets) {
         <?php endforeach; ?>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

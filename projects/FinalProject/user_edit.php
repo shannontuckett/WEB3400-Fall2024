@@ -40,6 +40,7 @@ if (isset($_GET['id'])) {
 <?php include 'templates/nav.php'; ?>
 
     <!-- BEGIN YOUR CONTENT -->
+    <main class="container">
     <section class="section">
         <h1 class="title">Edit User</h1>
         <form action="" method="post">
@@ -104,6 +105,7 @@ if (isset($_GET['id'])) {
             </div>
         </form>
     </section>
+    </main>
     <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

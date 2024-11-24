@@ -21,6 +21,7 @@ if (!$articles) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Featured Articles</h1>
     <!-- articles List -->
@@ -73,6 +74,7 @@ if (!$articles) {
     <?php endforeach; ?>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

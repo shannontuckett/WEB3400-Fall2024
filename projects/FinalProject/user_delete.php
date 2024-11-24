@@ -47,6 +47,7 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Delete User Account</h1>
     <p class="subtitle">Are you sure you want to delete the user: <?= $user['full_name'] ?></p>
@@ -55,6 +56,7 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
         <a href="?id=<?= $user['id'] ?>&confirm=no" class="button is-danger">No</a>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

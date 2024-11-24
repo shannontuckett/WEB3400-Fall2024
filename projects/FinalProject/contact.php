@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'templates/nav.php'; ?>
 
     <!-- BEGIN YOUR CONTENT -->
-     
+<main class="container">    
 <section class="section">
     <h1 class="title">Contact Us</h1>
     <form class="box" action="contact.php" method="post">
@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <span><?= $contactPhone ?></span>
     </a>
 </section>
+</main>
 
     <!-- END YOUR CONTENT -->
 

@@ -49,6 +49,7 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Delete Ticket</h1>
     <p class="subtitle">Are you sure you want to delete ticket: <?= htmlspecialchars_decode($ticket['title']) ?></p>
@@ -57,5 +58,6 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
         <a href="tickets.php" class="button is-danger">No</a>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 <?php include 'templates/footer.php'; ?>

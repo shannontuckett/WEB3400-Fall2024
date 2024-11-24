@@ -80,8 +80,9 @@ if (isset($_GET['id']) && isset($_GET['is_featured'])) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
-    <h1 class="title">Articles</h1>
+    <h1 class="title">Manage Articles</h1>
     <!-- Add Post Button -->
     <div class="buttons">
         <a href="article_add.php" class="button is-link">Write an article</a>
@@ -112,7 +113,7 @@ if (isset($_GET['id']) && isset($_GET['is_featured'])) {
                                 <i class="fas fa-lg fa-check-circle"></i>
                             </a>
                         <?php else : ?>
-                            <a href="articles.php?id=<?= $article['id'] ?>&is_featured=0" class="button is-warning is-light">
+                            <a href="articles.php?id=<?= $article['id'] ?>&is_featured=0" class="button is-warning">
                                 <i class="fas fa-lg fa-times-circle"></i>
                             </a>
                         <?php endif; ?>
@@ -140,6 +141,7 @@ if (isset($_GET['id']) && isset($_GET['is_featured'])) {
         </tbody>
     </table>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

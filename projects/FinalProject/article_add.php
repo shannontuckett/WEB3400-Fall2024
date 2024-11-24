@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Write an article</h1>
     <form action="" method="post">
@@ -71,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

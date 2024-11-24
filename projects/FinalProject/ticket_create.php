@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertStmt = $pdo->prepare("INSERT INTO `tickets` (`user_id`, `title`, `description`, `priority`) VALUES (?, ?, ?,?)");
     $insertStmt->execute([$_SESSION['user_id'], $title, $description, $priority]);
         $_SESSION['messages'] [] = "The ticket was successfully added.";
-        header('Location: ticket_create.php');
+        header('Location: tickets.php');
         exit;
 }
 ?>
@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Create Ticket</h1>
     <form action="" method="post">
@@ -65,5 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 <?php include 'templates/footer.php'; ?>

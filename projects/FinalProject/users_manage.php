@@ -32,6 +32,7 @@ if (!$users){
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Manage Users</h1>
     <!-- Add User Button -->
@@ -72,5 +73,6 @@ if (!$users){
         </tbody>
     </table>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 <?php include 'templates/footer.php'; ?>

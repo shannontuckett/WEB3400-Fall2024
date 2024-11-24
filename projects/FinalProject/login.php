@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'templates/nav.php'; ?>
 
     <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Login</h1>
     <form class="box" action="login.php" method="post">
@@ -85,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <a href="register.php" class="is-link"><strong>Create a new user account</strong></a>
 </section>
+</main>
     <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

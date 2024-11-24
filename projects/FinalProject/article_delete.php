@@ -47,6 +47,7 @@ if (isset($_GET['confirm'])){
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Delete Article</h1>
     <p class="subtitle">Are you sure you want to delete the article: <?= $article['title'] ?></p>
@@ -55,6 +56,7 @@ if (isset($_GET['confirm'])){
         <a href="articles.php" class="button is-danger">No</a>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['msg'])) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Ticket Detail</h1>
     <p class="subtitle">
@@ -159,5 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['msg'])) {
         </div>
     </div>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 <?php include 'templates/footer.php'; ?>

@@ -36,6 +36,7 @@ try {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Update Profile</h1>
     <form class="box" action="profile_update.php" method="post">
@@ -78,6 +79,7 @@ try {
         </div>
     </form>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

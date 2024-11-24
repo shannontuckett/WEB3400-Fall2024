@@ -7,7 +7,7 @@
                 <a class="navbar-item" href="index.php">
                     <span class="icon-text"> 
                         <span class="icon">
-                            <i class="fas fa-grin fa-lg" style="color: #FFD43B;"></i>
+                            <i class="fas fa-sun fa-lg" style="color: #63E6BE;"></i>
                         </span>
                         <span>&nbsp;<?= $siteName ?></span>
                     </span>
@@ -25,7 +25,7 @@
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link <?= $_SERVER['PHP_SELF'] === '/admin_dashboard.php' ? 'is-active' : '' ?>">
                             <span class="icon">
-                                <i class="fas fa-user-cog"></i>
+                                <i class="fas fa-user-cog" ></i>
                             </span>
                             <span>Admin</span>
                         </a>
@@ -50,7 +50,7 @@
             <div class="navbar-end mr-5">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary <?= $_SERVER['PHP_SELF'] === '/contact.php' ? 'is-active' : '' ?>" href="contact.php">Contact Us</a>
+                        <a class="button is-warning <?= $_SERVER['PHP_SELF'] === '/contact.php' ? 'is-active' : '' ?>" href="contact.php">Contact Us</a>
                         
                         <!-- Support button for logged-in users -->
                         <?php if (isset($_SESSION['loggedin'])) : ?>
@@ -64,7 +64,7 @@
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="button navbar-link">
                                     <span class="icon">
-                                        <i class="fas fa-user"></i>
+                                        <i class="fas fa-user" style="color: #63E6BE;"></i>
                                     </span>
                                 </a>
                                 <div class="navbar-dropdown">

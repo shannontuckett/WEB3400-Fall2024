@@ -40,6 +40,7 @@ try {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Profile</h1>
     <div class="card">
@@ -94,7 +95,7 @@ try {
   </div>
   <?php endforeach; ?>
 </section>
-
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

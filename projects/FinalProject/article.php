@@ -25,6 +25,7 @@ if (!$article) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title"><?= $article['title'] ?></h1>
     <div class="box">
@@ -123,5 +124,5 @@ if (!$article) {
   </article>
   <?php endforeach; ?>
 </section>
-
+</main>
 <?php include 'templates/footer.php'; ?>

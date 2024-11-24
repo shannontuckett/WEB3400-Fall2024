@@ -45,6 +45,7 @@ if (!$ticket) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Edit Ticket</h1>
     <form action="" method="post">
@@ -82,6 +83,7 @@ if (!$ticket) {
         </div>
     </form>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
 
 <?php include 'templates/footer.php'; ?>

@@ -74,6 +74,7 @@ if (isset($_GET['code'])) {
 <?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
+<main class="container">
 <section class="section">
     <h1 class="title">Login</h1>
     <form class="box" action="login.php" method="post">
@@ -169,4 +170,5 @@ if (isset($_GET['code'])) {
         </div>
     </form>
 </section>
+</main>
 <!-- END YOUR CONTENT -->
