@@ -92,17 +92,17 @@
     <?php if ($_SERVER['PHP_SELF'] === '/index.php') : ?>
         <section class="hero is-info">
             <div class="hero-body">
-                <p class="title">
-                    "Dolphins are more than just mammals"
+                <p class="title"> 
+                    Do you feel like something is missing from your life?
                 </p>
                 <p class="subtitle">
-                    They are a southern Florida mascot...
+                Join us to learn all about finding happiness from within...
                 </p>
                 <a href="contact.php" class="button is-medium is-info is-light is-rounded <?= $_SERVER['PHP_SELF'] === '/contact.php' ? 'is-active' : '' ?>">
                     <span class="icon is-large">
                         <i class="fab fa-2x fa-pagelines"></i>
                     </span>
-                    <span>DolFans are the best!</span>
+                    <span>Reach out to a Happiness Guru to start your journey now!</span>
                 </a>
             </div>
         </section>
