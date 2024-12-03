@@ -2,43 +2,31 @@
 // Step 1: Include config.php file
 include 'config.php';
 
-
-
 // Step 2: Secure and only allow 'admin' users to access this page
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     // Redirect user to login page or display an error message
-    $_SESSION['messages'][] = "You must be an administrator to access this resource.";
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
     header('Location: login.php');
-    exit();
+    exit;
 }
-include 'templates/head.php';
-include 'templates/nav.php';
-
-// Define KPI Queries
+// KPI Queries
 $kpiQueries = [
-    'total_articles_count' => 'SELECT COUNT(*) FROM articles',
-    'unpublished_articles_count' => 'SELECT COUNT(*) FROM articles WHERE is_published = 0',
-    'published_articles_count' => 'SELECT COUNT(*) FROM articles WHERE is_published = 1',
-    'featured_articles_count' => 'SELECT COUNT(*) FROM articles WHERE is_featured = 1',
-    'total_user_interactions' => 'SELECT COUNT(*) FROM user_interactions',
-    'average_likes_per_article' => 'SELECT ROUND(AVG(likes_count), 2) FROM articles',
-    'average_favs_per_article' => 'SELECT ROUND(AVG(favs_count), 2) FROM articles',
-    'average_comments_per_article' => 'SELECT ROUND(AVG(comments_count), 2) FROM articles',
-    'total_tickets_count' => 'SELECT COUNT(*) FROM tickets',
-    'open_tickets_count' => 'SELECT COUNT(*) FROM tickets WHERE status = "Open"',
-    'in_progress_tickets_count' => 'SELECT COUNT(*) FROM tickets WHERE status = "In Progress"',
-    'closed_tickets_count' => 'SELECT COUNT(*) FROM tickets WHERE status = "Closed"',
-    'total_user_count' => 'SELECT COUNT(*) FROM users WHERE role = "user"',
-    'most_active_user' => "SELECT CONCAT(users.full_name, ': ', COUNT(user_interactions.id), ' interactions') 
-                           FROM users 
-                           JOIN user_interactions ON users.id = user_interactions.user_id 
-                           WHERE users.role = 'user' 
-                           GROUP BY users.full_name 
-                           ORDER BY COUNT(user_interactions.id) DESC 
-                           LIMIT 1",
+    'total_articles_count' => 'SELECT COUNT(*) AS total_articles_count FROM articles',
+    'unpublished_articles_count' => 'SELECT COUNT(*) AS unpublished_articles_count FROM articles WHERE is_published = 0',
+    'published_articles_count' => 'SELECT COUNT(*) AS published_articles_count FROM articles WHERE is_published = 1',
+    'featured_articles_count' => 'SELECT COUNT(*) AS featured_articles_count FROM articles WHERE is_featured = 1',
+    'total_user_interactions' => 'SELECT COUNT(*) FROM `user_interactions`',
+    'average_likes_per_article' => 'SELECT ROUND(AVG(likes_count), 2) AS average_likes_per_article FROM articles',
+    'average_favs_per_article' => 'SELECT ROUND(AVG(favs_count), 2) AS average_favs_per_article FROM articles',
+    'average_comments_per_article' => 'SELECT ROUND(AVG(comments_count), 2) AS average_comments_per_article FROM articles',
+    'total_tickets_count' => 'SELECT COUNT(*) AS total_tickets_count FROM tickets',
+    'open_tickets_count' => 'SELECT COUNT(*) AS open_tickets_count FROM tickets WHERE status = "Open"',
+    'in_progress_tickets_count' => 'SELECT COUNT(*) AS open_tickets_count FROM tickets WHERE status = "In Progress"',
+    'closed_tickets_count' => 'SELECT COUNT(*) AS closed_tickets_count FROM tickets WHERE status = "Closed"',
+    'total_user_count' => 'SELECT COUNT(*) AS user_count FROM users WHERE role = "user"',
+    'most_active_user' => "SELECT CONCAT(u.full_name, ': ', COUNT(ui.id), ' interactions') AS user_interactions FROM users u JOIN user_interactions ui ON u.id = ui.user_id WHERE u.role = 'user' GROUP BY u.full_name ORDER BY COUNT(ui.id) DESC LIMIT 1",
 ];
 
-// Execute KPI Queries
 $kpiResults = [];
 foreach ($kpiQueries as $kpi => $query) {
     $stmt = $pdo->prepare($query);
@@ -46,6 +34,107 @@ foreach ($kpiQueries as $kpi => $query) {
     $kpiResults[$kpi] = $stmt->fetchColumn();
 }
 
+$stmt = $pdo->prepare('SELECT * FROM contact_us ORDER BY submitted_at DESC LIMIT 5');
+$stmt->execute();
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Article check and quick add
+// check if submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Extract, sanitize user input, and assign data to variables
+    $user_id = $_SESSION['user_id'];
+    $title = htmlspecialchars($_POST['title']);
+    $content = htmlspecialchars($_POST['content']);
+
+    $insertStmt = $pdo->prepare("INSERT INTO `articles`(`author_id`, `title`, `content`) VALUES (?, ?, ?)");
+        $insertStmt->execute([$user_id, $title, $content]);
+        $_SESSION['message'][] = "The article was successfully added.";
+       header('Location: articles.php');
+        exit;
+
+// ticket check and quick add
+// check if submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Extract, sanitize user input, and assign data to variables
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $priority = ($_POST['priority']);
+
+
+    $insertStmt = $pdo->prepare("INSERT INTO `tickets`(`user_id`, `title`, `description`, `priority`) VALUES (?, ?, ?, ?)");
+    $insertStmt->execute([$_SESSION['user_id'], $title, $description, $priority]);
+    $_SESSION['message'][] = "Your ticket was created.";
+    header('Location: tickets.php');
+    exit;
+}
+
+// user check and quick add
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Extract, sanitize user input, and assign data to variables
+    $full_name = htmlspecialchars($_POST['full_name']);
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Encrypt password
+    $phone = htmlspecialchars($_POST['phone']);
+    $role = $_POST['role'];
+    $activation_code = uniqid(); // Generate a unique id
+
+    // Check if the email is unique
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE `email` = ?");
+    $stmt->execute([$email]);
+    $userExists = $stmt->fetch();
+
+    if ($userExists) {
+        // Email already exists, prompt the user to choose another
+        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your password";
+        header('Location: register.php');
+        exit;
+    } else {
+        // Email is unique, proceed with inserting the new user record
+        $insertStmt = $pdo->prepare("INSERT INTO users(full_name, email, pass_hash, phone, activation_code, role) VALUES (?, ?, ?, ?, ?, ?)");
+        $insertStmt->execute([$full_name, $email, $password, $phone, $activation_code, $role]);
+
+        // Generate activation link. This is instead of sending a verification Email and or SMS message
+        $activation_link = "?code=$activation_code";
+
+        // Create an activation link message
+        $_SESSION['messages'][] = "$full_name has been created. To activate your account, <a href='$activation_link'>click here</a>.";
+    }
+}
+// Check if an activation code is provided in the URL query string
+if (isset($_GET['code'])) {
+    $activationCode = $_GET['code'];
+
+    try {
+        // Prepare a SQL statement to select the user with the given activation code
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE activation_code = ? LIMIT 1");
+        $stmt->execute([$activationCode]);
+        $user = $stmt->fetch();
+
+        // Check if user exists
+        if ($user) {
+            // User found. Now update the activated_on field with the current date and time
+            $updateStmt = $pdo->prepare("UPDATE `users` SET `activation_code` = CONCAT('activated - ', NOW()) WHERE `id` = ?");
+            $updateResult = $updateStmt->execute([$user['id']]);
+
+            if ($updateResult) {
+                // Update was successful
+                $_SESSION['messages'][] = "Account activated successfully. You can now login.";
+                header('Location: login.php');
+                exit;
+            } else {
+                // Update failed
+                $_SESSION['messages'][] = "Failed to activate account. Please try the activation link again or contact support.";
+            }
+        } else {
+            // No user found with that activation code
+            $_SESSION['messages'][] = "Invalid activation code. Please check the link or contact support.";
+        }
+    } catch (PDOException $e) {
+        // Handle any database errors (optional)
+        die("Database error occurred: " . $e->getMessage());
+    }
+}
+}
 // Fetch recent contact messages
 $contactQuery = 'SELECT * FROM contact_us ORDER BY submitted_at DESC LIMIT 5';
 $contactStmt = $pdo->prepare($contactQuery);
@@ -53,6 +142,8 @@ $contactStmt->execute();
 $contactMessages = $contactStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<?php include 'templates/head.php'; ?>
+<?php include 'templates/nav.php'; ?>
 
 <section class="section">
     <div class="container">
